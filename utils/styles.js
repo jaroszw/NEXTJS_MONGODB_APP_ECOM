@@ -7,7 +7,6 @@ const useStyles = makeStyles({
       color: "#ffffff",
       marginLeft: 10,
     },
-    textTransform: "upperCase",
   },
 
   brand: {

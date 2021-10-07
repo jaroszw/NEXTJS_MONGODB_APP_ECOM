@@ -47,7 +47,9 @@ export default function ProductScreen() {
           <Grid item md={3} xs={12}>
             <List>
               <ListItem>
-                <Typography component="h1"> {product.name}</Typography>
+                <Typography component="h1" variant="h1">
+                  {product.name}
+                </Typography>
               </ListItem>
               <ListItem>
                 <Typography>Category: {product.category}</Typography>
@@ -90,9 +92,16 @@ export default function ProductScreen() {
                     </Grid>
                   </Grid>
                 </ListItem>
-                <Button fullWidth variant="contained" color="primary">
-                  Add to Cart
-                </Button>
+                <ListItem>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    // onClick={addToCartHandler}
+                  >
+                    Add to cart
+                  </Button>
+                </ListItem>
               </List>
             </Card>
           </Grid>
