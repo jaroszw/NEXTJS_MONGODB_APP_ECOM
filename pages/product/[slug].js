@@ -1,9 +1,9 @@
-import React from "react";
-import { useRouter } from "next/router";
-import data from "../../utils/data";
-import Layout from "../../components/Layout";
+import React from 'react';
+import db from '../../utils/db';
+import Products from '../../models/product';
+import Layout from '../../components/Layout';
 
-import NextLink from "next/link";
+import NextLink from 'next/link';
 import {
   Grid,
   Link,
@@ -12,15 +12,12 @@ import {
   Typography,
   Card,
   Button,
-} from "@material-ui/core";
-import useStyles from "../../utils/styles";
-import Image from "next/image";
+} from '@material-ui/core';
+import useStyles from '../../utils/styles';
+import Image from 'next/image';
 
-export default function ProductScreen() {
+export default function ProductScreen({ product }) {
   const classes = useStyles();
-  const router = useRouter();
-  const { slug } = router.query;
-  const product = data.products.find((a) => a.slug === slug);
 
   if (!product) {
     return <div>Product not Found</div>;
@@ -87,7 +84,7 @@ export default function ProductScreen() {
                     </Grid>
                     <Grid item xs={6}>
                       <Typography>
-                        {product.countInStock > 0 ? "In Stock" : "Unavalible"}
+                        {product.countInStock > 0 ? 'In Stock' : 'Unavalible'}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -111,6 +108,13 @@ export default function ProductScreen() {
   }
 }
 
-// export function getStaticPath() {}
+export async function getServerSideProps({ params: { slug } }) {
+  console.log(slug);
+  await db.connect();
+  const product = await Products.findOne({ slug }).lean();
+  await db.disconnect();
 
-// export function getStaticProps() {}
+  return {
+    props: { product: db.convertDocToObj(product) },
+  };
+}
