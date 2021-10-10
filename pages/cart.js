@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import dynamic from 'next/dynamic';
 import Layout from '../components/Layout';
 import { Store } from '../utils/store';
 import {
@@ -21,7 +22,7 @@ import {
 import NextLink from 'next/link';
 import Image from 'next/image';
 
-export default function CartScreen() {
+function CartScreen() {
   const {
     state: {
       cart: { cartItems },
@@ -117,3 +118,5 @@ export default function CartScreen() {
     </Layout>
   );
 }
+
+export default dynamic(() => Promise.resolve(CartScreen), { ssr: false });
