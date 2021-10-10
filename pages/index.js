@@ -36,7 +36,11 @@ export default function Home({ products }) {
                 </NextLink>
                 <CardActions>
                   <Typography>{product.price}</Typography>
-                  <Button size="small" color="primary">
+                  <Button
+                    size="small"
+                    color="primary"
+                    // onClick={() => addToCartHandler(product)}
+                  >
                     Add to cart
                   </Button>
                 </CardActions>
@@ -51,10 +55,13 @@ export default function Home({ products }) {
 
 export async function getServerSideProps() {
   await db.connect();
-  const products = await Product.find({}).lean();
+
+  const data = await Product.find({}).lean();
   await db.disconnect();
 
+  const products = JSON.parse(JSON.stringify(data));
+
   return {
-    props: { products: products.map(db.convertDocToObj) },
+    props: { products },
   };
 }

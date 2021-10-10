@@ -9,6 +9,7 @@ async function connect() {
     console.log('already connected');
     return;
   }
+
   if (mongoose.connections.length > 0) {
     connection.isConnected = mongoose.connections[0].readyState;
     if (connection.isConnected === 1) {
@@ -17,10 +18,12 @@ async function connect() {
     }
     await mongoose.disconnect();
   }
+
   const db = await mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
+
   console.log('new connection');
   connection.isConnected = db.connections[0].readyState;
 }
@@ -36,13 +39,6 @@ async function disconnect() {
   }
 }
 
-// function convertDocToObj(doc) {
-//   doc._id = doc._id.toString();
-//   doc.createdAt = doc.createdAt.toString();
-//   doc.updatedAt = doc.updatedAt.toString();
-//   return doc;
-// }
-
 function convertDocToObj(doc) {
   doc._id = doc._id.toString();
   doc.createdAt = doc.createdAt.toString();
@@ -53,51 +49,54 @@ function convertDocToObj(doc) {
 const db = { connect, disconnect, convertDocToObj };
 export default db;
 
-// import { MongoClient } from 'mongodb';
-
-// const MONGODB_URI = process.env.MONGODB_URI;
-// const MONGODB_DB = process.env.DB_NAME;
-
-// // check the MongoDB URI
-// if (!MONGODB_URI) {
-//   throw new Error('Define the MONGODB_URI environmental variable');
-// }
-
-// // check the MongoDB DB
-// if (!MONGODB_DB) {
-//   throw new Error('Define the MONGODB_DB environmental variable');
-// }
-
-// let cachedClient = null;
-// let cachedDb = null;
-
-// export async function connectToDatabase() {
-//   // check the cached.
-//   if (cachedClient && cachedDb) {
-//     // load from cache
-//     return {
-//       client: cachedClient,
-//       db: cachedDb,
-//     };
-//   }
-
-//   // set the connection options
-//   const opts = {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   };
-
-//   // Connect to cluster
-//   let client = new MongoClient(MONGODB_URI, opts);
-//   await client.connect();
-//   let db = client.db(MONGODB_DB);
-
-//   // set cache
-//   cachedClient = client;
-//   cachedDb = db;
-
-//   return {
-//     client: cachedClient,
-//     db: cachedDb,
-//   };
-// }
+[
+  {
+    id: 1,
+    name: 'Leanne Graham',
+    username: 'Bret',
+    email: 'Sincere@april.biz',
+    address: {
+      street: 'Kulas Light',
+    },
+    phone: '1-770-736-8031 x56442',
+  },
+  {
+    id: 2,
+    name: 'Ervin Howell',
+    username: 'Antonette',
+    email: 'Shanna@melissa.tv',
+    address: {
+      street: 'Victor Plains',
+    },
+    phone: '010-692-6593 x09125',
+  },
+  {
+    id: 3,
+    name: 'Clementine Bauch',
+    username: 'Samantha',
+    email: 'Nathan@yesenia.net',
+    address: {
+      street: 'Douglas Extension',
+    },
+  },
+  {
+    id: 4,
+    name: 'Patricia Lebsack',
+    username: 'Karianne',
+    email: 'Julianne.OConner@kory.org',
+    address: {
+      street: 'Hoeger Mall',
+    },
+    phone: '493-170-9623 x156',
+  },
+  {
+    id: 5,
+    name: 'Chelsey Dietrich',
+    username: 'Kamren',
+    email: 'Lucio_Hettinger@annie.ca',
+    address: {
+      street: 'Skiles Walks',
+    },
+    phone: '(254)954-1289',
+  },
+]

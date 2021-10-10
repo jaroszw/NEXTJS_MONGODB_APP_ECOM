@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Store } from '../../utils/store';
 import db from '../../utils/db';
 import Products from '../../models/product';
 import Layout from '../../components/Layout';
@@ -15,9 +16,19 @@ import {
 } from '@material-ui/core';
 import useStyles from '../../utils/styles';
 import Image from 'next/image';
+import axios from 'axios';
 
 export default function ProductScreen({ product }) {
   const classes = useStyles();
+  const { dispatch } = useContext(Store);
+
+  const addToCartHandler = async () => {
+    const { data } = await axios(`/api/products/${product._id}`);
+    if (data.countInStock <= 0) {
+      window.alert('sorry product is out of stock');
+    }
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } });
+  };
 
   if (!product) {
     return <div>Product not Found</div>;
@@ -94,7 +105,7 @@ export default function ProductScreen({ product }) {
                     fullWidth
                     variant="contained"
                     color="primary"
-                    // onClick={addToCartHandler}
+                    onClick={addToCartHandler}
                   >
                     Add to cart
                   </Button>
@@ -109,7 +120,6 @@ export default function ProductScreen({ product }) {
 }
 
 export async function getServerSideProps({ params: { slug } }) {
-  console.log(slug);
   await db.connect();
   const product = await Products.findOne({ slug }).lean();
   await db.disconnect();

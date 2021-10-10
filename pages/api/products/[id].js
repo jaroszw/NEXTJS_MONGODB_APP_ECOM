@@ -6,7 +6,8 @@ const handler = nc();
 
 export default handler.get(async (req, res) => {
   await db.connect();
-  const products = await Product.find({});
+  const id = req.query.id;
+  const product = await Product.findById(id);
   await db.disconnect();
-  res.send(products);
+  res.send(product);
 });
