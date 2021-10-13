@@ -99,4 +99,4 @@ export default db;
     },
     phone: '(254)954-1289',
   },
-]
+];

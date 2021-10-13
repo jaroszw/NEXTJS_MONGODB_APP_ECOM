@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import NextLink from 'next/link';
 import db from '../utils/db';
-import Product from '../models/product';
+import Product from '../models/Product';
 import { Store } from '../utils/store';
 import axios from 'axios';
 import { useRouter } from 'next/dist/client/router';
